@@ -1,0 +1,29 @@
+ANALISE LEXICA - C:\Users\nicol\Downloads\Compiladores_v3\Compiladores_v3\Parsium\src\Teste.txt
+---------------------------------------------
+| TOKEN                | LEXEMA | LINHA:COL |
+---------------------------------------------
+| INT                  | int    |    1:0    |
+| VAR                  | $x     |    1:4    |
+| PVIRG                | ;      |    1:6    |
+| VAR                  | $x     |    2:0    |
+| IGUAL                | =      |    2:3    |
+| NUMEROS              | 10     |    2:5    |
+| PVIRG                | ;      |    2:7    |
+| SE                   | if     |    3:0    |
+| IPAREN               | (      |    3:3    |
+| VAR                  | $x     |    3:4    |
+| EQ                   | ==     |    3:7    |
+| NUMEROS              | 10     |    3:10   |
+| FPAREN               | )      |    3:12   |
+| ICHAVES              | {      |    3:14   |
+| ESCREVA              | echo   |    4:4    |
+| STRINGVAL            | "igual" |    4:9    |
+| PVIRG                | ;      |    4:16   |
+| FCHAVES              | }      |    5:0    |
+| SENAO                | else   |    5:2    |
+| ICHAVES              | {      |    5:7    |
+| ESCREVA              | echo   |    6:4    |
+| STRINGVAL            | "diferente" |    6:9    |
+| PVIRG                | ;      |    6:20   |
+| FCHAVES              | }      |    7:0    |
+---------------------------------------------
