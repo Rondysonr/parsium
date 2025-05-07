@@ -1,9 +1,9 @@
 
 # Parsium – Projeto de Compiladores
 
-Este projeto implementa uma gramática baseada em PHP, com analisador léxico e sintático utilizando a ferramenta [ANTLR 4.13.2] para a linguagem de programação criada exclusivamente para a displina **Parsium**, com geração da árvore sintática (AST) em formato `.dot` e `.png`. 
+Este projeto implementa uma gramática baseada em PHP, com analisador léxico e sintático utilizando a ferramenta ANTLR 4.13.2 para a linguagem de programação **Parsium** criada exclusivamente para a displina, com geração da árvore sintática (AST) em formato `.dot` e `.png`. 
 
-## 📁 Estrutura de Pastas
+## Estrutura de Pastas
 
 ```
 Parsium/
@@ -26,7 +26,7 @@ Parsium/
 
 ---
 
-## 🚀 Requisitos
+## Requisitos
 
 - [Java JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [ANTLR 4.13.2 JAR](https://www.antlr.org/download.html)
@@ -34,18 +34,15 @@ Parsium/
 
 ---
 
-## ⚙️ Compilação e Execução
+## Compilação e Execução
 
-### ✅ Executar tudo automaticamente
+### Executar tudo automaticamente
 
 1. Use `compiler.bat`:
    ```bat
    cd src
    compiler.bat
    ```
-
-> Isso irá compilar todos os arquivos `.java`, executar o `ParsiumScanner` e `ParsiumParserScanner`, gerar os logs, a AST e o `.png`.
-
 ---
 
 ### 🔧 Compilação manual
@@ -75,7 +72,7 @@ Parsium/
 
 ---
 
-## 🌳 Geração da AST (.dot e .png)
+## Geração da AST (.dot e .png)
 
 ```bash
 arvore.dot
@@ -91,7 +88,7 @@ dot -Tpng arvore.dot -o arvore.png
 
 ---
 
-## 📂 Arquivos de Entrada
+## Arquivos de Entrada
 
 O programa espera um arquivo `.txt` com a linguagem em Parsium. Exemplo:
 
@@ -105,7 +102,7 @@ Deve estar salvo como `teste.txt` dentro da pasta `src`.
 
 ---
 
-## 🛠 Logs
+## Logs
 
 - **`LogLexicos.txt`** – saída do analisador léxico
 - **`arvore.dot`** – representação em DOT da AST
