@@ -45,7 +45,7 @@ Parsium/
    ```
 ---
 
-### 🔧 Compilação manual
+### Compilação manual
 
 1. **Vá para a pasta `src`**:
    ```bash
