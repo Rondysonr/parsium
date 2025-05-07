@@ -14,7 +14,7 @@ if ($a <= 0 || $b <= 0 || $c <= 0) {
     }  if ($a == $b || $a == $c || $b == $c) {
         echo "Triângulo isósceles válido";
     } else {
-        ech "Triângulo escaleno válido";
+        echo "Triângulo escaleno válido";
     }
 } else {
     echo "Medidas inválidas";

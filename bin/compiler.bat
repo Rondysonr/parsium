@@ -5,7 +5,7 @@ rem === CAMINHOS ===
 set ANTLR_JAR=C:\Users\nicol\Downloads\Compiladores_v3\Compiladores_v3\Parsium\lib\antlr-4.13.2-complete.jar
 set SRC_DIR=C:\Users\nicol\Downloads\Compiladores_v3\Compiladores_v3\Parsium\src
 set JAVA_SRC=%SRC_DIR%\main\grammar
-set TEST_FILE=%SRC_DIR%\Teste.txt
+set TEST_FILE=%SRC_DIR%\clasificacao_triangulo.txt
 
 echo === COMPILANDO OS ARQUIVOS JAVA NECESSARIOS ===
 mkdir "%OUTPUT_DIR%" 2>nul

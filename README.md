@@ -24,6 +24,7 @@ Parsium/
 │           └── ParsiumErrorListener.java   ← Tratamento de erros léxicos
 ```
 
+
 ---
 
 ## Requisitos
@@ -93,9 +94,27 @@ dot -Tpng arvore.dot -o arvore.png
 O programa espera um arquivo `.txt` com a linguagem em Parsium. Exemplo:
 
 ```parsium
-int $x;
-$x = 10;
-echo $x;
+int $a;
+int $b;
+int $c;
+
+$a = readline();
+$b = readline();
+$c = readline();
+
+if ($a <= 0 || $b <= 0 || $c <= 0) {
+    echo "Medidas inválidas";
+} if (($a + $b > $c) && ($a + $c > $b) && ($b + $c > $a)) {
+    if ($a == $b && $b == $c) {
+        echo "Triângulo equilátero válido";
+    }  if ($a == $b || $a == $c || $b == $c) {
+        echo "Triângulo isósceles válido";
+    } else {
+        echo "Triângulo escaleno válido";
+    }
+} else {
+    echo "Medidas inválidas";
+}
 ```
 
 Deve estar salvo como `teste.txt` dentro da pasta `src`.
