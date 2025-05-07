@@ -1,11 +1,22 @@
+Parsium – Projeto de Compiladores
+Parsium é uma linguagem de programação criada exclusivamente para fins acadêmicos na disciplina de Compiladores. Inspirada em PHP, a linguagem oferece recursos como:
 
-# Parsium – Projeto de Compiladores
+Declaração de variáveis (int, string)
 
-Este projeto implementa uma gramática baseada em PHP, com analisador léxico e sintático utilizando a ferramenta ANTLR 4.13.2 para a linguagem de programação **Parsium** criada exclusivamente para a displina, com geração da árvore sintática (AST) em formato `.dot` e `.png`. 
+Comandos de entrada e saída
 
-## Estrutura de Pastas
+Expressões aritméticas, lógicas e relacionais
 
-```
+Estruturas condicionais (if, else)
+
+Laços de repetição (while)
+
+Este projeto implementa a gramática da linguagem Parsium utilizando ANTLR 4.13.2, com analisadores léxico e sintático, geração de árvore sintática abstrata (AST) em .dot e exportação para .png.
+
+📁 Estrutura de Pastas
+css
+Copiar
+Editar
 Parsium/
 ├── lib/
 │   └── antlr-4.13.2-complete.jar
@@ -14,7 +25,7 @@ Parsium/
 │   ├── teste.txt                  ← Arquivo de teste (Parsium)
 │   └── main/
 │       └── grammar/
-│           ├── Parsium.g4         ← Gramática 
+│           ├── Parsium.g4
 │           ├── ParsiumLexer.java
 │           ├── ParsiumParser.java
 │           ├── ParsiumScanner.java         ← Analisador léxico
@@ -23,7 +34,6 @@ Parsium/
 │           ├── ParserErrorListener.java    ← Tratamento de erros sintáticos
 │           └── ParsiumErrorListener.java   ← Tratamento de erros léxicos
 ```
-
 
 ---
 
@@ -94,27 +104,9 @@ dot -Tpng arvore.dot -o arvore.png
 O programa espera um arquivo `.txt` com a linguagem em Parsium. Exemplo:
 
 ```parsium
-int $a;
-int $b;
-int $c;
-
-$a = readline();
-$b = readline();
-$c = readline();
-
-if ($a <= 0 || $b <= 0 || $c <= 0) {
-    echo "Medidas inválidas";
-} if (($a + $b > $c) && ($a + $c > $b) && ($b + $c > $a)) {
-    if ($a == $b && $b == $c) {
-        echo "Triângulo equilátero válido";
-    }  if ($a == $b || $a == $c || $b == $c) {
-        echo "Triângulo isósceles válido";
-    } else {
-        echo "Triângulo escaleno válido";
-    }
-} else {
-    echo "Medidas inválidas";
-}
+int $x;
+$x = 10;
+echo $x;
 ```
 
 Deve estar salvo como `teste.txt` dentro da pasta `src`.
