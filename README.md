@@ -1,7 +1,7 @@
 
 # Parsium – Projeto de Compiladores
 
-Este projeto implementa uma gramática baseada em PHP,analisador léxico e sintático utilizando a ferramenta [ANTLR 4.13.2](https://www.antlr.org/) para a linguagem de programação criada **Parsium**, com geração da árvore sintática (AST) em formato `.dot` e `.png`.
+Este projeto implementa uma gramática baseada em PHP, com analisador léxico e sintático utilizando a ferramenta [ANTLR 4.13.2] para a linguagem de programação criada exclusivamente para a displina **Parsium**, com geração da árvore sintática (AST) em formato `.dot` e `.png`. 
 
 ## 📁 Estrutura de Pastas
 
@@ -36,9 +36,9 @@ Parsium/
 
 ## ⚙️ Compilação e Execução
 
-### ✅ Executar tudo automaticamente (recomendado)
+### ✅ Executar tudo automaticamente
 
-1. Edite `compiler.bat`:
+1. Use `compiler.bat`:
    ```bat
    cd src
    compiler.bat
@@ -54,18 +54,21 @@ Parsium/
    ```bash
    cd Parsium/src
    ```
-
-2. **Compile os arquivos Java**:
+2. **Compile o arquivo Parsium.g4**:
+   ```bash
+   javac -cp ".;../lib/antlr-4.13.2-complete.jar" main/grammar/Parsium.g4
+   ```
+3. **Compile os arquivos Java**:
    ```bash
    javac -cp ".;../lib/antlr-4.13.2-complete.jar" main/grammar/*.java
    ```
 
-3. **Execute o analisador léxico** (gera log `LogLexicos.txt`):
+4. **Execute o analisador léxico** (gera log `LogLexicos.txt`):
    ```bash
    java -cp ".;../lib/antlr-4.13.2-complete.jar" main.grammar.ParsiumScanner teste.txt
    ```
 
-4. **Execute o analisador sintático e gera arvore.dot***:
+5. **Execute o analisador sintático e gera arvore.dot***:
    ```bash
    java -cp ".;../lib/antlr-4.13.2-complete.jar" main.grammar.ParsiumParserScanner teste.txt
    ```
@@ -74,15 +77,13 @@ Parsium/
 
 ## 🌳 Geração da AST (.dot e .png)
 
-O arquivo `ParsiumParserScanner.java` utiliza a classe `ASTDotExporter` para gerar a árvore sintática em formato `.dot`:
-
 ```bash
 arvore.dot
 ```
 
 ### Para converter para imagem `.png`:
 
-> Requer que o Graphviz esteja instalado e acessível pelo terminal (`dot`).
+> Requer que o Graphviz esteja instalado.
 
 ```bash
 dot -Tpng arvore.dot -o arvore.png
@@ -92,7 +93,7 @@ dot -Tpng arvore.dot -o arvore.png
 
 ## 📂 Arquivos de Entrada
 
-O programa espera um arquivo `.txt` como entrada de código Parsium. Exemplo:
+O programa espera um arquivo `.txt` com a linguagem em Parsium. Exemplo:
 
 ```parsium
 int $x;
@@ -100,7 +101,7 @@ $x = 10;
 echo $x;
 ```
 
-Salve como `teste.txt` dentro da pasta `src`.
+Deve estar salvo como `teste.txt` dentro da pasta `src`.
 
 ---
 
@@ -114,7 +115,7 @@ Salve como `teste.txt` dentro da pasta `src`.
 
 ## ✍️ Autores
 
-Projeto acadêmico desenvolvido pelo discente Nicolas Falcão Heemann e Rondyson Railan Siqueira dos Reis para a disciplina de **Compiladores** – Engenharia da Computação.
+Projeto acadêmico desenvolvido pelos discentes Nicolas Falcão Heemann e Rondyson Railan Siqueira dos Reis para a disciplina de **Compiladores** – Engenharia da Computação - IFMT Campus Cel. Octayde Jorge da Silva.
 
 ---
 
