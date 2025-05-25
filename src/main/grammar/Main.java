@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String code = Files.readString(Paths.get("teste.txt"));
+        String code = Files.readString(Paths.get("clasificacao_triangulo.txt"));
 
         ParsiumLexer lexer = new ParsiumLexer(CharStreams.fromString(code));
         CommonTokenStream tokens = new CommonTokenStream(lexer);

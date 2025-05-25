@@ -25,7 +25,7 @@ cd /d "%OUTPUT_DIR%"
 
 echo.
 echo === EXECUTANDO ParsiumParserScanner ===
-java -cp ".;%ANTLR_JAR%" main.grammar.ParsiumParserScanner "clasificacao_triangulo.txt"
+java -cp ".;%ANTLR_JAR%" main.grammar.ParsiumParserScanner "clasificacao_triangulo.txt" 2>nul
 
 echo.
 echo === EXECUTANDO ParsiumScanner ===
@@ -33,7 +33,8 @@ java -cp ".;%ANTLR_JAR%" main.grammar.ParsiumScanner "clasificacao_triangulo.txt
 
 echo.
 echo === EXECUTANDO ParsiumSemantica ===
-java -cp ".;%ANTLR_JAR%" main.grammar.Main "teste.txt"
+java -cp ".;%ANTLR_JAR%" main.grammar.Main "%TEST_FILE%" 2>nul
+
 
 echo.
 echo === CONVERTENDO ast.dot PARA PNG ===
