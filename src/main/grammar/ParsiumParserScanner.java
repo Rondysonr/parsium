@@ -17,7 +17,7 @@ public class ParsiumParserScanner {
         parser.removeErrorListeners();
         parser.addErrorListener(new ParserErrorListener()); 
 
-        ParseTree tree = parser.program();  
+        ParseTree tree = parser.prog();  
 
     
         ASTDotExporter.export(tree, parser, "arvore.dot");

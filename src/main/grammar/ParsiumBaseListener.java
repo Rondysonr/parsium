@@ -1,5 +1,6 @@
 // Generated from Parsium.g4 by ANTLR 4.13.2
 package main.grammar;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -16,13 +17,13 @@ public class ParsiumBaseListener implements ParsiumListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(ParsiumParser.ProgramContext ctx) { }
+	@Override public void enterProg(ParsiumParser.ProgContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(ParsiumParser.ProgramContext ctx) { }
+	@Override public void exitProg(ParsiumParser.ProgContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -76,6 +77,18 @@ public class ParsiumBaseListener implements ParsiumListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSaida(ParsiumParser.SaidaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSaida(ParsiumParser.SaidaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLoop(ParsiumParser.LoopContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,6 +108,18 @@ public class ParsiumBaseListener implements ParsiumListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhile(ParsiumParser.WhileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBloco(ParsiumParser.BlocoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBloco(ParsiumParser.BlocoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

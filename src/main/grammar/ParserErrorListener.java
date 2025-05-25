@@ -9,6 +9,6 @@ public class ParserErrorListener extends BaseErrorListener {
                             int linha, int PosicaoDaLinha,
                             String msg,
                             RecognitionException e) {
-        System.err.printf("ERRO SINTATICO [Linha %d, Coluna %d]: %s%n", linha, PosicaoDaLinha, msg);
+        System.err.printf("ERRO SINTATICO [Linha %d, Coluna %d]: %n", linha, PosicaoDaLinha);
     }
 }

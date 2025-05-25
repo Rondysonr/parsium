@@ -8,15 +8,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface ParsiumListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link ParsiumParser#program}.
+	 * Enter a parse tree produced by {@link ParsiumParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void enterProgram(ParsiumParser.ProgramContext ctx);
+	void enterProg(ParsiumParser.ProgContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ParsiumParser#program}.
+	 * Exit a parse tree produced by {@link ParsiumParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void exitProgram(ParsiumParser.ProgramContext ctx);
+	void exitProg(ParsiumParser.ProgContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ParsiumParser#programa}.
 	 * @param ctx the parse tree
@@ -58,6 +58,16 @@ public interface ParsiumListener extends ParseTreeListener {
 	 */
 	void exitLeitura(ParsiumParser.LeituraContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ParsiumParser#saida}.
+	 * @param ctx the parse tree
+	 */
+	void enterSaida(ParsiumParser.SaidaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ParsiumParser#saida}.
+	 * @param ctx the parse tree
+	 */
+	void exitSaida(ParsiumParser.SaidaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ParsiumParser#loop}.
 	 * @param ctx the parse tree
 	 */
@@ -77,6 +87,16 @@ public interface ParsiumListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhile(ParsiumParser.WhileContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ParsiumParser#bloco}.
+	 * @param ctx the parse tree
+	 */
+	void enterBloco(ParsiumParser.BlocoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ParsiumParser#bloco}.
+	 * @param ctx the parse tree
+	 */
+	void exitBloco(ParsiumParser.BlocoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ParsiumParser#expr}.
 	 * @param ctx the parse tree

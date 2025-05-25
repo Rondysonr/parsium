@@ -1,4 +1,4 @@
-// Generated from C:/Users/nicol/Downloads/Compiladores_v3/Compiladores_v3/Parsium/src/main/grammar/Parsium.g4 by ANTLR 4.13.2
+// Generated from Parsium.g4 by ANTLR 4.13.2
 package main.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -11,11 +11,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface ParsiumVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link ParsiumParser#program}.
+	 * Visit a parse tree produced by {@link ParsiumParser#prog}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProgram(ParsiumParser.ProgramContext ctx);
+	T visitProg(ParsiumParser.ProgContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ParsiumParser#programa}.
 	 * @param ctx the parse tree
@@ -41,6 +41,12 @@ public interface ParsiumVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLeitura(ParsiumParser.LeituraContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ParsiumParser#saida}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSaida(ParsiumParser.SaidaContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ParsiumParser#loop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -52,6 +58,12 @@ public interface ParsiumVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhile(ParsiumParser.WhileContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ParsiumParser#bloco}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBloco(ParsiumParser.BlocoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ParsiumParser#expr}.
 	 * @param ctx the parse tree

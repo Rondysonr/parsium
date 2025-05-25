@@ -1,7 +1,7 @@
 
 # Parsium – Projeto de Compiladores
 
-Este projeto implementa uma gramática baseada em PHP, com analisador léxico e sintático utilizando a ferramenta ANTLR 4.13.2 para a linguagem de programação **Parsium** criada exclusivamente para a displina, com geração da árvore sintática (AST) em formato `.dot` e `.png`. 
+Este projeto implementa uma gramática baseada em PHP, com analisador léxico, sintático e semântico utilizando a ferramenta ANTLR 4.13.2 para a linguagem de programação **Parsium** criada exclusivamente para a displina, com geração da árvore sintática (AST) em formato `.dot` e `.png`. 
 
 ## Estrutura de Pastas
 
@@ -29,9 +29,9 @@ Parsium/
 
 ## Requisitos
 
-- [Java JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-- [ANTLR 4.13.2 JAR](https://www.antlr.org/download.html)
-- [Graphviz](https://graphviz.org/download/) (para converter `.dot` em `.png`)
+- [Java JDK 17]
+- [ANTLR 4.13.2 JAR]
+- [Graphviz] (para converter `.dot` em `.png`)
 
 ---
 
@@ -72,6 +72,12 @@ Parsium/
    ```
 
 ---
+5. **Execute o analisador sintático e gera arvore.dot***:
+   ```bash
+   java -cp ".;../lib/antlr-4.13.2-complete.jar" main.grammar.Main teste.txt
+   ```
+
+---
 
 ## Geração da AST (.dot e .png)
 
@@ -84,7 +90,7 @@ arvore.dot
 > Requer que o Graphviz esteja instalado.
 
 ```bash
-dot -Tpng arvore.dot -o arvore.png
+dot -Tpng -Gcharset=latin1 arvore.dot -o arvore.png
 ```
 
 ---

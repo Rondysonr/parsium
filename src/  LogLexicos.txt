@@ -111,15 +111,13 @@ ANALISE LEXICA - C:\Users\nicol\Downloads\Compiladores_v3\Compiladores_v3\Parsiu
 | FCHAVES              | }      |   16:4    |
 | SENAO                | else   |   16:6    |
 | ICHAVES              | {      |   16:11   |
-| ESCREVA              | echo   |   17:8    |
-| STRINGVAL            | "Triângulo escaleno válido" |   17:13   |
-| PVIRG                | ;      |   17:40   |
+| STRINGVAL            | "Triângulo escaleno válido" |   17:12   |
+| PVIRG                | ;      |   17:39   |
 | FCHAVES              | }      |   18:4    |
 | FCHAVES              | }      |   19:0    |
 | SENAO                | else   |   19:2    |
 | ICHAVES              | {      |   19:7    |
 | ESCREVA              | echo   |   20:4    |
 | STRINGVAL            | "Medidas inválidas" |   20:9    |
-| PVIRG                | ;      |   20:28   |
 | FCHAVES              | }      |   21:0    |
 ---------------------------------------------

@@ -1,29 +1,34 @@
 grammar Parsium;
 
-program : programa* EOF ;
+prog : programa* EOF ;
 
 programa
     : declaracoes
     | atribuicoes
     | leitura
+    | saida
     | loop
     | while
     | expr PVIRG         
     ;
 
-declaracoes : (INT | STRING) VAR PVIRG ;
+declaracoes : (INT | STRING) VAR (',' VAR)* PVIRG ;
 
 atribuicoes  : VAR IGUAL expr PVIRG ;
 
-leitura    : ESCREVA expr PVIRG ;
+leitura : ESCREVA expr PVIRG ;
+
+saida    : ESCREVA expr PVIRG ;
 
 loop
-    : SE IPAREN expr FPAREN ICHAVES programa* FCHAVES (SENAO ICHAVES programa* FCHAVES)?
+    : SE IPAREN expr FPAREN bloco (SENAO bloco)?
     ;
 
 while
-    : ENQUANTO IPAREN expr FPAREN ICHAVES programa* FCHAVES 
+    : ENQUANTO IPAREN expr FPAREN bloco 
     ;
+
+bloco : ICHAVES programa* FCHAVES | programa ;
 
 expr : logicExpr ;
 
