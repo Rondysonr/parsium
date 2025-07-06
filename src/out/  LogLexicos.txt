@@ -8,9 +8,9 @@ ANALISE LEXICA - clasificacao_triangulo.txt
 | INT                  | int    |    2:0    |
 | VAR                  | $b     |    2:4    |
 | PVIRG                | ;      |    2:6    |
-| INT                  | int    |    3:0    |
-| VAR                  | $c     |    3:4    |
-| PVIRG                | ;      |    3:6    |
+| STRING               | string |    3:0    |
+| VAR                  | $c     |    3:7    |
+| PVIRG                | ;      |    3:9    |
 | VAR                  | $a     |    5:0    |
 | IGUAL                | =      |    5:3    |
 | LEIA                 | readline |    5:5    |
@@ -120,4 +120,16 @@ ANALISE LEXICA - clasificacao_triangulo.txt
 | ESCREVA              | echo   |   20:4    |
 | STRINGVAL            | "Medidas inválidas" |   20:9    |
 | FCHAVES              | }      |   21:0    |
+| INT                  | int    |   23:0    |
+| VAR                  | $b     |   23:4    |
+| IGUAL                | =      |   23:7    |
+| VAR                  | $a     |   23:9    |
+| DIV                  | /      |   23:11   |
+| VAR                  | $c     |   23:12   |
+| PVIRG                | ;      |   23:14   |
+| VAR                  | $a     |   24:0    |
+| IGUAL                | =      |   24:3    |
+| VAR                  | $b     |   24:5    |
+| DIV                  | /      |   24:7    |
+| NUMEROS              | 0      |   24:8    |
 ---------------------------------------------

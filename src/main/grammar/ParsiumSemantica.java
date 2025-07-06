@@ -26,7 +26,7 @@ public class ParsiumSemantica extends ParsiumBaseVisitor<String> {
         for (var varToken : ctx.VAR()) {
             String varName = varToken.getText();
             if (symbolTable.containsKey(varName)) {
-                error("Variavel '" + varName + "' já foi declarada.");
+                error("Variavel '" + varName + "' ja foi declarada.");
             } else {
                 symbolTable.put(varName, tipo);
                 log("Variavel '" + varName + "' declarada como " + tipo);
@@ -88,7 +88,7 @@ public class ParsiumSemantica extends ParsiumBaseVisitor<String> {
             String operador = ctx.getChild(2 * i - 1).getText();
 
             if (!"int".equals(tipoFinal) || !"int".equals(tipoAtual)) {
-                error("Operacao '" + operador + "' invalida entre tipos '" + tipoFinal + "' e '" + tipoAtual + "'.");
+                error("Operacao '" + operador + "' invalida entre tipos.");
             }
 
             // Verifica divisão por zero se for literal
@@ -120,7 +120,7 @@ public class ParsiumSemantica extends ParsiumBaseVisitor<String> {
             String right = visit(ctx.expressaoaritmetica(1));
             String operador = ctx.getChild(1).getText();
             if (!left.equals(right)) {
-                error("Comparacao '" + operador + "' entre tipos incompatíveis: '" + left + "' e '" + right + "'");
+                error("Comparacao '" + operador + "' entre tipos incompativeis: '" + left + "' e '" + right + "'");
             }
         }
         return "int";
