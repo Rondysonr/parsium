@@ -11,10 +11,28 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    private static void salvarTAC(List<TACInstruction> codigoTAC, String nomeArquivo) {
+        try (PrintWriter writer = new PrintWriter(nomeArquivo)) {
+            for (TACInstruction instr : codigoTAC) {
+                writer.println(instr.toString());
+            }
+        } catch (Exception e) {
+            System.err.println("Erro na geração do código intermediário (TAC): " + e.getMessage());
+            System.exit(1);
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
-            System.err.println("Uso: java main.grammar.Main <arquivo-fonte>");
+            System.err.println("Uso: java main.grammar.Main <arquivo-fonte> [--gerar-tac]");
             System.exit(1);
+        }
+
+        boolean gerarTAC = false;
+        for (String arg : args) {
+            if (arg.equals("--gerar-tac")) {
+                gerarTAC = true;
+            }
         }
 
         // LEXER e PARSER
@@ -50,6 +68,12 @@ public class Main {
         GeradorTAC geradorTAC = new GeradorTAC();
         geradorTAC.visit(tree);
         List<TACInstruction> codigoTAC = geradorTAC.getCodigo();
+
+        // Salvar TAC se solicitado
+        if (gerarTAC) {
+            salvarTAC(codigoTAC, "saida.tac");
+            System.out.println("Arquivo saida.tac gerado com sucesso.");
+        }
 
         // GERADOR LLVM
         GeradorLLVM geradorLLVM = new GeradorLLVM();
