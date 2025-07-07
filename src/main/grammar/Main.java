@@ -1,5 +1,4 @@
 package main.grammar;
-
 import main.tac.GeradorTAC;
 import main.tac.TACInstruction;
 import main.llmv.GeradorLLVM;
@@ -36,7 +35,7 @@ public class Main {
         }
 
         // LEXER e PARSER
-        CharStream input = CharStreams.fromFileName(args[0]);
+        org.antlr.v4.runtime.CharStream input = org.antlr.v4.runtime.CharStreams.fromFileName(args[0]);
         ParsiumLexer lexer = new ParsiumLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ParsiumParser parser = new ParsiumParser(tokens);
@@ -77,12 +76,8 @@ public class Main {
 
         // GERADOR LLVM
         GeradorLLVM geradorLLVM = new GeradorLLVM();
-        List<String> codigoLLVM = geradorLLVM.gerarCodigoLLVM(codigoTAC);
-
         try (PrintWriter writer = new PrintWriter("saida.ll")) {
-            for (String linha : codigoLLVM) {
-                writer.println(linha);
-            }
+            geradorLLVM.gerarCodigoLLVM(codigoTAC, writer);
         }
 
         System.out.println("Arquivo saida.ll gerado com sucesso.");

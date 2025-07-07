@@ -1,0 +1,10 @@
+ASSIGN $x, 10
+ASSIGN t0, $x
+ASSIGN t1, 10
+EQ t2, t0, t1
+IF_FALSE L0, t2
+PRINT "igual"
+GOTO L1
+LABEL L0
+PRINT "diferente"
+LABEL L1

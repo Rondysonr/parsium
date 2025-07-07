@@ -1,4 +1,4 @@
-// Generated from c:/Users/nicol/Downloads/Compiladores_v3/Compiladores_v3/Parsium/src/main/grammar/Parsium.g4 by ANTLR 4.13.1
+// Generated from e:/usuario/Downloads/Parsium/Parsium/src/main/grammar/Parsium.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

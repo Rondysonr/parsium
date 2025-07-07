@@ -16,7 +16,7 @@ declaracoes : (INT | STRING) VAR (',' VAR)* PVIRG ;
 
 atribuicoes  : VAR IGUAL expr PVIRG ;
 
-leitura : ESCREVA expr PVIRG ;
+leitura : LEIA expr PVIRG ;
 
 saida    : ESCREVA expr PVIRG ;
 

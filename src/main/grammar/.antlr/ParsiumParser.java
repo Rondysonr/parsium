@@ -1,4 +1,4 @@
-// Generated from c:/Users/nicol/Downloads/Compiladores_v3/Compiladores_v3/Parsium/src/main/grammar/Parsium.g4 by ANTLR 4.13.1
+// Generated from e:/usuario/Downloads/Parsium/Parsium/src/main/grammar/Parsium.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -114,14 +114,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterProg(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitProg(this);
-		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -188,14 +180,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_programa; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterPrograma(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitPrograma(this);
-		}
 	}
 
 	public final ProgramaContext programa() throws RecognitionException {
@@ -282,14 +266,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declaracoes; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterDeclaracoes(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitDeclaracoes(this);
-		}
 	}
 
 	public final DeclaracoesContext declaracoes() throws RecognitionException {
@@ -354,14 +330,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atribuicoes; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterAtribuicoes(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitAtribuicoes(this);
-		}
 	}
 
 	public final AtribuicoesContext atribuicoes() throws RecognitionException {
@@ -393,7 +361,7 @@ public class ParsiumParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class LeituraContext extends ParserRuleContext {
-		public TerminalNode ESCREVA() { return getToken(ParsiumParser.ESCREVA, 0); }
+		public TerminalNode LEIA() { return getToken(ParsiumParser.LEIA, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -402,14 +370,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_leitura; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterLeitura(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitLeitura(this);
-		}
 	}
 
 	public final LeituraContext leitura() throws RecognitionException {
@@ -419,7 +379,7 @@ public class ParsiumParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(67);
-			match(ESCREVA);
+			match(LEIA);
 			setState(68);
 			expr();
 			setState(69);
@@ -448,14 +408,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_saida; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterSaida(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitSaida(this);
-		}
 	}
 
 	public final SaidaContext saida() throws RecognitionException {
@@ -502,14 +454,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_loop; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterLoop(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitLoop(this);
-		}
 	}
 
 	public final LoopContext loop() throws RecognitionException {
@@ -568,14 +512,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_while; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterWhile(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitWhile(this);
-		}
 	}
 
 	public final WhileContext while_() throws RecognitionException {
@@ -621,14 +557,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_bloco; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterBloco(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitBloco(this);
-		}
 	}
 
 	public final BlocoContext bloco() throws RecognitionException {
@@ -703,14 +631,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitExpr(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -754,14 +674,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterLogicExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitLogicExpr(this);
-		}
 	}
 
 	public final LogicExprContext logicExpr() throws RecognitionException {
@@ -826,14 +738,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_relacionalExpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterRelacionalExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitRelacionalExpr(this);
-		}
 	}
 
 	public final RelacionalExprContext relacionalExpr() throws RecognitionException {
@@ -892,14 +796,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressaoigual; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterExpressaoigual(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitExpressaoigual(this);
-		}
 	}
 
 	public final ExpressaoigualContext expressaoigual() throws RecognitionException {
@@ -964,14 +860,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressaoaritmetica; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterExpressaoaritmetica(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitExpressaoaritmetica(this);
-		}
 	}
 
 	public final ExpressaoaritmeticaContext expressaoaritmetica() throws RecognitionException {
@@ -1040,14 +928,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_termo; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterTermo(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitTermo(this);
-		}
 	}
 
 	public final TermoContext termo() throws RecognitionException {
@@ -1115,14 +995,6 @@ public class ParsiumParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_fator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).enterFator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ParsiumListener ) ((ParsiumListener)listener).exitFator(this);
-		}
 	}
 
 	public final FatorContext fator() throws RecognitionException {
@@ -1248,7 +1120,7 @@ public class ParsiumParser extends Parser {
 		":<\u0001\u0000\u0000\u0000;9\u0001\u0000\u0000\u0000<=\u0005\r\u0000\u0000"+
 		"=\u0005\u0001\u0000\u0000\u0000>?\u0005\u001c\u0000\u0000?@\u0005\u000e"+
 		"\u0000\u0000@A\u0003\u0012\t\u0000AB\u0005\r\u0000\u0000B\u0007\u0001"+
-		"\u0000\u0000\u0000CD\u0005\u0005\u0000\u0000DE\u0003\u0012\t\u0000EF\u0005"+
+		"\u0000\u0000\u0000CD\u0005\u0006\u0000\u0000DE\u0003\u0012\t\u0000EF\u0005"+
 		"\r\u0000\u0000F\t\u0001\u0000\u0000\u0000GH\u0005\u0005\u0000\u0000HI"+
 		"\u0003\u0012\t\u0000IJ\u0005\r\u0000\u0000J\u000b\u0001\u0000\u0000\u0000"+
 		"KL\u0005\u0002\u0000\u0000LM\u0005\t\u0000\u0000MN\u0003\u0012\t\u0000"+
