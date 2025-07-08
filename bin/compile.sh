@@ -5,7 +5,8 @@ ANTLR_JAR="e:/usuario/Downloads/Parsium/Parsium/lib/antlr-4.13.2-complete.jar"
 SRC_DIR="e:/usuario/Downloads/Parsium/Parsium"
 JAVA_SRC="$SRC_DIR/src/main"
 OUTPUT_DIR="$SRC_DIR/src/out"
-TEST_FILE="$SRC_DIR/src/teste.txt"
+#TEST_FILE="$SRC_DIR/src/teste.txt"
+TEST_FILE="$SRC_DIR/src/triangulo_pascal.txt"
 
 # Limpar diretório de saída
 echo "=== LIMPANDO DIRETÓRIO DE SAÍDA ==="

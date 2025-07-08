@@ -1,7 +1,20 @@
-int $x;
-$x = 10;
-if ($x == 10) {
-    echo "igual";
-} else {
-    echo "diferente";
+int $n;
+$n = readline();
+
+int $i;
+int $j;
+int $val;
+
+$i = 0;
+while ($i < $n) {
+    $j = 0;
+    $val = 1;
+    while ($j <= $i) {
+        echo $val;
+        echo " ";
+        $val = $val * ($i - $j) / ($j + 1);
+        $j = $j + 1;
+    }
+    echo "\n";
+    $i = $i + 1;
 }

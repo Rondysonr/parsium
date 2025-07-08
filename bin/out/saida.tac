@@ -1,10 +1,22 @@
-ASSIGN $x, 10
-ASSIGN t0, $x
-ASSIGN t1, 10
-EQ t2, t0, t1
-IF_FALSE L0, t2
-PRINT "igual"
-GOTO L1
+INPUT t0
+ASSIGN $n, t0
+ASSIGN $i, 0
 LABEL L0
-PRINT "diferente"
+IF_FALSE L1, $n
+ASSIGN $j, 0
+ASSIGN $val, 1
+LABEL L2
+IF_FALSE L3, $i
+SUB t1, $i, $j
+MUL t2, $val, t1
+ADD t3, $j, 1
+DIV t4, t2, t3
+ASSIGN $val, t4
+ADD t5, $j, 1
+ASSIGN $j, t5
+GOTO L2
+LABEL L3
+ADD t6, $i, 1
+ASSIGN $i, t6
+GOTO L0
 LABEL L1

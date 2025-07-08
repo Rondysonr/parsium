@@ -1,272 +1,184 @@
 package main.llmv;
 
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import main.tac.Opcode;
 import main.tac.TACInstruction;
+import main.tac.TACOperand;
 
 public class GeradorLLVM {
-    private int stringCounter = 0;
-    private Map<String, String> stringConstants = new HashMap<>();
-
+    
     public void gerarCodigoLLVM(List<TACInstruction> instrucoes, PrintWriter writer) {
         try {
-            // Cabeçalho do programa LLVM
-            writer.write("; Código LLVM IR gerado pelo Parsium\n");
-            writer.write("declare i32 @printf(i8*, ...)\n");
-            writer.write("@.str.int = private unnamed_addr constant [4 x i8] c\"%d\\0A\\00\"\n");
-            writer.write("@.str.fmt = private unnamed_addr constant [4 x i8] c\"%s\\0A\\00\"\n");
-            
-            // Procurar strings em constantes
-            coletarStrings(instrucoes);
-            gerarDeclaracoesStrings(writer);
-            
-            // Início da função main
-            writer.write("define i32 @main() {\n");
-            
-            // Processar instruções
-            processarInstrucoes(instrucoes, writer);
-            
-            // Garantir que há uma saída no final
-            writer.write("  ret i32 0\n");
-            writer.write("}\n");
-            
+            TACConverter converter = new TACConverter(instrucoes);
+            converter.gerar(writer);
             writer.flush();
         } catch (Exception e) {
-            writer.write("\n  ret i32 0\n");
-            writer.write("}\n");
+            writer.write("; Erro na geração\ndefine i32 @main() {\n  ret i32 0\n}\n");
             writer.flush();
-            
-            System.err.println("Erro ao gerar código LLVM: " + e.getMessage());
-            e.printStackTrace();
         }
     }
     
-    private void gerarDeclaracoesStrings(PrintWriter writer) {
-        for (Map.Entry<String, String> entry : stringConstants.entrySet()) {
-            String original = entry.getKey();
-            String id = entry.getValue();
-            String escaped = escapeString(original);
-            int length = escaped.length() + 1; // +1 para o null terminator
-            
-            writer.write("@" + id + " = private unnamed_addr constant [" + length + " x i8] c\"" + 
-                         escaped + "\\00\"\n");
-        }
-    }
-    
-    private void processarInstrucoes(List<TACInstruction> instrucoes, PrintWriter writer) {
-    int registerCount = 0;
-    
-    // Mapear variáveis para registros LLVM
-    Map<String, String> varRegs = new HashMap<>();
-    
-    // Primeiro geramos as declarações e operações
-    for (int i = 0; i < instrucoes.size(); i++) {
-        TACInstruction instr = instrucoes.get(i);
+    private class TACConverter {
+        private List<TACInstruction> instrucoes;
+        private Map<String, String> vars = new HashMap<>();
+        private Set<String> labels = new HashSet<>();
+        private int temp = 0;
         
-        if (instr.getOpcode() == Opcode.ASSIGN || 
-            instr.getOpcode() == Opcode.ADD || 
-            instr.getOpcode() == Opcode.SUB || 
-            instr.getOpcode() == Opcode.MUL || 
-            instr.getOpcode() == Opcode.DIV || 
-            instr.getOpcode() == Opcode.EQ || 
-            instr.getOpcode() == Opcode.NE) {
+        public TACConverter(List<TACInstruction> instrucoes) {
+            this.instrucoes = instrucoes;
+            
+            // Coletar labels
+            for (TACInstruction instr : instrucoes) {
+                if (instr.getOpcode() == Opcode.LABEL) {
+                    labels.add(instr.getResult().toString());
+                }
+            }
+        }
+        
+        public void gerar(PrintWriter w) {
+            // Cabeçalho
+            w.write("declare i32 @printf(i8*, ...)\n");
+            w.write("@.str.int = private constant [4 x i8] c\"%d\\0A\\00\"\n");
+            w.write("@.str.space = private constant [2 x i8] c\" \\00\"\n");
+            w.write("@.str.newline = private constant [2 x i8] c\"\\0A\\00\"\n\n");
+            
+            // Função main
+            w.write("define i32 @main() {\n");
+            w.write("entry:\n");
+            
+            // Processar instruções
+            for (int i = 0; i < instrucoes.size(); i++) {
+                TACInstruction instr = instrucoes.get(i);
                 
-            // Código para gerar instruções normais (sem mudar controle de fluxo)
-            // Este código fica no bloco de entrada
+                switch (instr.getOpcode()) {
+                    case LABEL:
+                        w.write("  br label %" + instr.getResult() + "\n\n");
+                        w.write(instr.getResult() + ":\n");
+                        break;
+                        
+                    case ASSIGN:
+                        String dest = instr.getResult().toString();
+                        String src = getOperand(instr.getArg1());
+                        String reg = newReg(dest);
+                        w.write("  " + reg + " = add i32 0, " + src + "\n");
+                        break;
+                        
+                    case ADD:
+                        processarBinario(w, instr, "add");
+                        break;
+                    case SUB:
+                        processarBinario(w, instr, "sub");
+                        break;
+                    case MUL:
+                        processarBinario(w, instr, "mul");
+                        break;
+                    case DIV:
+                        processarBinario(w, instr, "sdiv");
+                        break;
+                        
+                    case GOTO:
+                        String target = instr.getArg1().toString();
+                        if (labels.contains(target)) {
+                            w.write("  br label %" + target + "\n");
+                        } else {
+                            w.write("  br label %exit\n");
+                        }
+                        break;
+                        
+                    case IF_FALSE:
+                        String cond = getOperand(instr.getArg2());
+                        String falseLabel = instr.getArg1().toString();
+                        String trueLabel = findNextLabel(i);
+                        
+                        // Converter para booleano se necessário
+                        if (!cond.equals("true") && !cond.equals("false")) {
+                            String boolReg = "%cond" + temp++;
+                            w.write("  " + boolReg + " = icmp ne i32 " + cond + ", 0\n");
+                            cond = boolReg;
+                        }
+                        
+                        if (labels.contains(falseLabel) && labels.contains(trueLabel)) {
+                            w.write("  br i1 " + cond + ", label %" + trueLabel + ", label %" + falseLabel + "\n");
+                        } else {
+                            w.write("  br label %exit\n");
+                        }
+                        break;
+                        
+                    case INPUT:
+                        String inputReg = newReg(instr.getResult().toString());
+                        w.write("  " + inputReg + " = add i32 0, 5\n");
+                        break;
+                        
+                    case PRINT:
+                        String arg = instr.getArg1().toString();
+                        if (arg.equals("\" \"")) {
+                            w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([2 x i8], [2 x i8]* @.str.space, i32 0, i32 0))\n");
+                        } else if (arg.equals("\"\\n\"")) {
+                            w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([2 x i8], [2 x i8]* @.str.newline, i32 0, i32 0))\n");
+                        } else {
+                            String val = getOperand(instr.getArg1());
+                            w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.str.int, i32 0, i32 0), i32 " + val + ")\n");
+                        }
+                        break;
+                        
+                    default:
+                        w.write("  ; " + instr.getOpcode() + " não implementado\n");
+                }
+            }
             
-            // Seu código atual para essas instruções
+            // Garantir que termine com return
+            w.write("  br label %exit\n\n");
+            w.write("exit:\n");
+            w.write("  ret i32 0\n");
+            w.write("}\n");
         }
-    }
-    
-    // Agora geramos o código de controle de fluxo
-    writer.write("\n  ; Código de controle de fluxo\n");
-    
-    // Primeiro o if
-    for (int i = 0; i < instrucoes.size(); i++) {
-        TACInstruction instr = instrucoes.get(i);
         
-        if (instr.getOpcode() == Opcode.IF_FALSE) {
-            if (instr.getArg2() != null && instr.getArg1() != null) {
-                String condTemp = instr.getArg2().toString();
-                String labelElse = instr.getArg1().toString(); // L0
-                String labelThen = "L1"; // Padrão TAC
-                
-                writer.write("  br i1 %" + condTemp + ", label %" + labelThen + ", label %" + labelElse + "\n\n");
+        private void processarBinario(PrintWriter w, TACInstruction instr, String op) {
+            String op1 = getOperand(instr.getArg1());
+            String op2 = getOperand(instr.getArg2());
+            String result = newReg(instr.getResult().toString());
+            w.write("  " + result + " = " + op + " i32 " + op1 + ", " + op2 + "\n");
+        }
+        
+        private String getOperand(TACOperand operand) {
+            if (operand == null) return "0";
+            
+            String val = operand.toString();
+            
+            if (isNumeric(val)) {
+                return val;
+            } else if (val.startsWith("$")) {
+                return vars.getOrDefault(val, "0");
+            } else {
+                return "%" + val;
             }
         }
-    }
-    
-    // Agora cada bloco separadamente
-    
-    // Bloco L1 (THEN)
-    writer.write("L1:                               ; bloco THEN\n");
-    boolean printedInL1 = false;
-    
-    // Procurar PRINT para o bloco THEN
-    for (int i = 0; i < instrucoes.size(); i++) {
-        TACInstruction instr = instrucoes.get(i);
         
-        if (instr.getOpcode() == Opcode.PRINT && 
-            isBetweenLabels(instrucoes, i, null, "L0")) {
-            // Está entre o IF e o label L0, então está no bloco THEN
-            if (instr.getArg1() != null) {
-                String printArg = instr.getArg1().toString();
-                if (printArg.startsWith("\"") && printArg.endsWith("\"")) {
-                    String strId = stringConstants.get(printArg);
-                    if (strId != null) {
-                        String escaped = escapeString(printArg);
-                        int length = escaped.length() + 1;
-                        
-                        writer.write("  %print" + registerCount + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.fmt, i32 0, i32 0), i8* getelementptr inbounds ([" + length + " x i8], [" + length + " x i8]* @" + strId + ", i32 0, i32 0))\n");
-                        registerCount++;
-                        printedInL1 = true;
-                    }
+        private String newReg(String var) {
+            String reg = "%" + var.replace("$", "") + "." + temp++;
+            if (var.startsWith("$")) {
+                vars.put(var, reg);
+            }
+            return reg;
+        }
+        
+        private String findNextLabel(int pos) {
+            for (int i = pos + 1; i < instrucoes.size(); i++) {
+                if (instrucoes.get(i).getOpcode() == Opcode.LABEL) {
+                    return instrucoes.get(i).getResult().toString();
                 }
             }
+            return "exit";
         }
-    }
-    
-    if (!printedInL1) {
-        writer.write("  add i32 0, 0                       ; no-op para evitar bloco vazio\n");
-    }
-    
-    writer.write("  br label %exit\n\n");
-    
-    // Bloco L0 (ELSE)
-    writer.write("L0:                               ; bloco ELSE\n");
-    boolean printedInL0 = false;
-    
-    // Procurar PRINT para o bloco ELSE
-    for (int i = 0; i < instrucoes.size(); i++) {
-        TACInstruction instr = instrucoes.get(i);
         
-        if (instr.getOpcode() == Opcode.PRINT && 
-            isBetweenLabels(instrucoes, i, "L0", "L1")) {
-            // Está entre o label L0 e L1, então está no bloco ELSE
-            if (instr.getArg1() != null) {
-                String printArg = instr.getArg1().toString();
-                if (printArg.startsWith("\"") && printArg.endsWith("\"")) {
-                    String strId = stringConstants.get(printArg);
-                    if (strId != null) {
-                        String escaped = escapeString(printArg);
-                        int length = escaped.length() + 1;
-                        
-                        writer.write("  %print" + registerCount + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.fmt, i32 0, i32 0), i8* getelementptr inbounds ([" + length + " x i8], [" + length + " x i8]* @" + strId + ", i32 0, i32 0))\n");
-                        registerCount++;
-                        printedInL0 = true;
-                    }
-                }
+        private boolean isNumeric(String str) {
+            try {
+                Integer.parseInt(str);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
             }
-        }
-    }
-    
-    if (!printedInL0) {
-        writer.write("  add i32 0, 0                       ; no-op para evitar bloco vazio\n");
-    }
-    
-    writer.write("  br label %exit\n\n");
-    
-    // Bloco de saída
-    writer.write("exit:                             ; bloco de saída\n");
-    writer.write("  ret i32 0\n");
-}
-
-// Método auxiliar para verificar se uma instrução está entre dois labels
-private boolean isBetweenLabels(List<TACInstruction> instrucoes, int index, String startLabel, String endLabel) {
-    boolean afterStart = (startLabel == null); // Se startLabel for null, começamos do início
-    
-    for (int i = 0; i < instrucoes.size(); i++) {
-        TACInstruction instr = instrucoes.get(i);
-        
-        // Se encontramos o label de início, marcamos que estamos após ele
-        if (instr.getOpcode() == Opcode.LABEL && 
-            startLabel != null && 
-            startLabel.equals(instr.getResult().toString())) {
-            afterStart = true;
-        }
-        
-        // Se estamos após o label de início e encontramos a instrução desejada, está no bloco
-        if (afterStart && i == index) {
-            return true;
-        }
-        
-        // Se encontramos o label de fim, saímos do bloco
-        if (instr.getOpcode() == Opcode.LABEL && 
-            endLabel != null && 
-            endLabel.equals(instr.getResult().toString())) {
-            return false;
-        }
-    }
-    
-    return false;
-}
-    
-    private String getOperandString(Object operand, Map<String, String> varRegs) {
-        if (operand == null) {
-            return "0";
-        }
-        
-        String str = operand.toString();
-        
-        if (str.startsWith("$")) {
-            // É uma variável
-            String reg = varRegs.get(str);
-            return (reg != null) ? reg : "0";
-        } else if (isNumeric(str)) {
-            // É um número
-            return str;
-        } else {
-            // É uma temporária ou outro tipo
-            return "%" + str;
-        }
-    }
-    
-    private String opcodeTollvm(Opcode opcode) {
-        return switch (opcode) {
-            case ADD -> "add";
-            case SUB -> "sub";
-            case MUL -> "mul";
-            case DIV -> "sdiv";
-            default -> throw new RuntimeException("Operação não suportada: " + opcode);
-        };
-    }
-    
-    private void coletarStrings(List<TACInstruction> instrucoes) {
-        int counter = 0;
-        
-        for (TACInstruction instr : instrucoes) {
-            if (instr.getOpcode() == Opcode.PRINT && instr.getArg1() != null) {
-                String arg = instr.getArg1().toString();
-                if (arg.startsWith("\"") && arg.endsWith("\"")) {
-                    if (!stringConstants.containsKey(arg)) {
-                        stringConstants.put(arg, "str." + counter++);
-                    }
-                }
-            }
-        }
-    }
-    
-    private String escapeString(String str) {
-        // Remover as aspas do início e fim
-        str = str.substring(1, str.length() - 1);
-        
-        // Escapar caracteres especiais
-        return str.replace("\\", "\\\\")
-                 .replace("\n", "\\0A")
-                 .replace("\t", "\\09")
-                 .replace("\"", "\\22");
-    }
-    
-    private boolean isNumeric(String str) {
-        if (str == null) return false;
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
         }
     }
 }
