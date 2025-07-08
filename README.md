@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Parsium – Projeto de Compiladores
 
@@ -141,3 +142,6 @@ Projeto acadêmico desenvolvido pelos discentes Nicolas Falcão Heemann e Rondys
 
 ---
 
+=======
+# parsium
+>>>>>>> 48d32ca3833fd61b206cbed0e3415c424ba3c6ac
