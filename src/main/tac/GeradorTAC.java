@@ -32,7 +32,7 @@ public class GeradorTAC extends ParsiumBaseVisitor<TACOperand> {
 
     @Override
     public TACOperand visitAtribuicoes(ParsiumParser.AtribuicoesContext ctx) {
-        debugLog("Processando atribuição: " + ctx.getText());
+        debugLog("*** VISITANDO ATRIBUICOES: " + ctx.getText());
         
         TACOperand var = new TACOperand(TACOperand.Tipo.VAR, ctx.VAR().getText());
         TACOperand valor = visit(ctx.expr());
@@ -50,11 +50,17 @@ public class GeradorTAC extends ParsiumBaseVisitor<TACOperand> {
                 TACOperand right = visit(ctx.termo(i));
                 String op = ctx.getChild(2 * i - 1).getText();
                 TACOperand temp = novaTemp();
-                Opcode opcode = switch (op) {
-                    case "+" -> Opcode.ADD;
-                    case "-" -> Opcode.SUB;
-                    default -> throw new RuntimeException("Operador nao suportado: " + op);
-                };
+                Opcode opcode;
+                switch (op) {
+                    case "+":
+                        opcode = Opcode.ADD;
+                        break;
+                    case "-":
+                        opcode = Opcode.SUB;
+                        break;
+                    default:
+                        throw new RuntimeException("Operador nao suportado: " + op);
+                }
                 codigo.add(new TACInstruction(opcode, temp, left, right));
                 left = temp;
             }
@@ -72,11 +78,17 @@ public class GeradorTAC extends ParsiumBaseVisitor<TACOperand> {
                 TACOperand right = visit(ctx.fator(i));
                 String op = ctx.getChild(2 * i - 1).getText();
                 TACOperand temp = novaTemp();
-                Opcode opcode = switch (op) {
-                    case "*" -> Opcode.MUL;
-                    case "/" -> Opcode.DIV;
-                    default -> throw new RuntimeException("Operador nao suportado: " + op);
-                };
+                Opcode opcode;
+                switch (op) {
+                    case "*":
+                        opcode = Opcode.MUL;
+                        break;
+                    case "/":
+                        opcode = Opcode.DIV;
+                        break;
+                    default:
+                        throw new RuntimeException("Operador nao suportado: " + op);
+                }
                 codigo.add(new TACInstruction(opcode, temp, left, right));
                 left = temp;
             }
@@ -112,7 +124,7 @@ public class GeradorTAC extends ParsiumBaseVisitor<TACOperand> {
 
     @Override
     public TACOperand visitSaida(ParsiumParser.SaidaContext ctx) {
-        debugLog("Processando comando de saída: " + ctx.getText());
+        debugLog("*** VISITANDO SAIDA: " + ctx.getText());
         
         if (ctx.expr() != null) {
             // Verificar se é uma string literal diretamente

@@ -14,7 +14,8 @@ public class GeradorLLVM {
             converter.gerar(writer);
             writer.flush();
         } catch (Exception e) {
-            writer.write("; Erro na geração\ndefine i32 @main() {\n  ret i32 0\n}\n");
+            // Se houver erro, gerar apenas um comentário sem uma nova função main
+            writer.write("; Erro na geração: " + e.getMessage() + "\n");
             writer.flush();
         }
     }
@@ -51,79 +52,91 @@ public class GeradorLLVM {
             for (int i = 0; i < instrucoes.size(); i++) {
                 TACInstruction instr = instrucoes.get(i);
                 
-                switch (instr.getOpcode()) {
-                    case LABEL:
-                        w.write("  br label %" + instr.getResult() + "\n\n");
-                        w.write(instr.getResult() + ":\n");
-                        break;
-                        
-                    case ASSIGN:
-                        String dest = instr.getResult().toString();
-                        String src = getOperand(instr.getArg1());
-                        String reg = newReg(dest);
-                        w.write("  " + reg + " = add i32 0, " + src + "\n");
-                        break;
-                        
-                    case ADD:
-                        processarBinario(w, instr, "add");
-                        break;
-                    case SUB:
-                        processarBinario(w, instr, "sub");
-                        break;
-                    case MUL:
-                        processarBinario(w, instr, "mul");
-                        break;
-                    case DIV:
-                        processarBinario(w, instr, "sdiv");
-                        break;
-                        
-                    case GOTO:
-                        String target = instr.getArg1().toString();
-                        if (labels.contains(target)) {
-                            w.write("  br label %" + target + "\n");
-                        } else {
-                            w.write("  br label %exit\n");
-                        }
-                        break;
-                        
-                    case IF_FALSE:
-                        String cond = getOperand(instr.getArg2());
-                        String falseLabel = instr.getArg1().toString();
-                        String trueLabel = findNextLabel(i);
-                        
-                        // Converter para booleano se necessário
-                        if (!cond.equals("true") && !cond.equals("false")) {
-                            String boolReg = "%cond" + temp++;
-                            w.write("  " + boolReg + " = icmp ne i32 " + cond + ", 0\n");
-                            cond = boolReg;
-                        }
-                        
-                        if (labels.contains(falseLabel) && labels.contains(trueLabel)) {
-                            w.write("  br i1 " + cond + ", label %" + trueLabel + ", label %" + falseLabel + "\n");
-                        } else {
-                            w.write("  br label %exit\n");
-                        }
-                        break;
-                        
-                    case INPUT:
-                        String inputReg = newReg(instr.getResult().toString());
-                        w.write("  " + inputReg + " = add i32 0, 5\n");
-                        break;
-                        
-                    case PRINT:
-                        String arg = instr.getArg1().toString();
-                        if (arg.equals("\" \"")) {
-                            w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([2 x i8], [2 x i8]* @.str.space, i32 0, i32 0))\n");
-                        } else if (arg.equals("\"\\n\"")) {
-                            w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([2 x i8], [2 x i8]* @.str.newline, i32 0, i32 0))\n");
-                        } else {
-                            String val = getOperand(instr.getArg1());
-                            w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.str.int, i32 0, i32 0), i32 " + val + ")\n");
-                        }
-                        break;
-                        
-                    default:
-                        w.write("  ; " + instr.getOpcode() + " não implementado\n");
+                try {
+                    switch (instr.getOpcode()) {
+                        case LABEL:
+                            w.write("  br label %" + instr.getResult() + "\n\n");
+                            w.write(instr.getResult() + ":\n");
+                            break;
+                            
+                        case ASSIGN:
+                            String dest = instr.getResult().toString();
+                            String src = getOperand(instr.getArg1());
+                            String reg = newReg(dest);
+                            w.write("  " + reg + " = add i32 0, " + src + "\n");
+                            break;
+                            
+                        case ADD:
+                            processarBinario(w, instr, "add");
+                            break;
+                        case SUB:
+                            processarBinario(w, instr, "sub");
+                            break;
+                        case MUL:
+                            processarBinario(w, instr, "mul");
+                            break;
+                        case DIV:
+                            processarBinario(w, instr, "sdiv");
+                            break;
+                            
+                        case GOTO:
+                            if (instr.getArg1() == null) {
+                                w.write("  ; GOTO com argumento nulo\n");
+                                w.write("  br label %exit\n");
+                                break;
+                            }
+                            String target = instr.getArg1().toString();
+                            if (labels.contains(target)) {
+                                w.write("  br label %" + target + "\n");
+                            } else {
+                                w.write("  br label %exit\n");
+                            }
+                            break;
+                            
+                        case IF_FALSE:
+                            if (instr.getArg1() == null || instr.getArg2() == null) {
+                                w.write("  ; IF_FALSE com argumentos nulos\n");
+                                w.write("  br label %exit\n");
+                                break;
+                            }
+                            String condVar = instr.getArg2().toString();
+                            String falseLabel = instr.getArg1().toString();
+                            String trueLabel = findNextLabel(i);
+                            
+                            // Gerar condição baseada na variável
+                            String condReg = "%cond" + temp++;
+                            String condOperand = getOperand(instr.getArg2());
+                            w.write("  " + condReg + " = icmp ne i32 " + condOperand + ", 0\n");
+                            
+                            if (labels.contains(falseLabel)) {
+                                w.write("  br i1 " + condReg + ", label %" + trueLabel + ", label %" + falseLabel + "\n");
+                            } else {
+                                w.write("  br label %exit\n");
+                            }
+                            break;
+                            
+                        case INPUT:
+                            String inputReg = newReg(instr.getResult().toString());
+                            w.write("  " + inputReg + " = add i32 0, 5\n");
+                            break;
+                            
+                        case PRINT:
+                            String arg = instr.getArg1().toString();
+                            if (arg.equals("\" \"")) {
+                                w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([2 x i8], [2 x i8]* @.str.space, i32 0, i32 0))\n");
+                            } else if (arg.equals("\"\\n\"")) {
+                                w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([2 x i8], [2 x i8]* @.str.newline, i32 0, i32 0))\n");
+                            } else {
+                                String val = getOperand(instr.getArg1());
+                                w.write("  %print" + temp++ + " = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.str.int, i32 0, i32 0), i32 " + val + ")\n");
+                            }
+                            break;
+                            
+                        default:
+                            w.write("  ; " + instr.getOpcode() + " não implementado\n");
+                    }
+                } catch (Exception e) {
+                    w.write("  ; Erro na instrução " + i + ": " + instr + " - " + e.getMessage() + "\n");
                 }
             }
             
@@ -149,7 +162,12 @@ public class GeradorLLVM {
             if (isNumeric(val)) {
                 return val;
             } else if (val.startsWith("$")) {
-                return vars.getOrDefault(val, "0");
+                String reg = vars.get(val);
+                return reg != null ? reg : "0";
+            } else if (val.startsWith("t")) {
+                // Para variáveis temporárias, buscar o último registrador gerado
+                String reg = vars.get(val);
+                return reg != null ? reg : "%" + val + ".0";
             } else {
                 return "%" + val;
             }
@@ -157,7 +175,7 @@ public class GeradorLLVM {
         
         private String newReg(String var) {
             String reg = "%" + var.replace("$", "") + "." + temp++;
-            if (var.startsWith("$")) {
+            if (var.startsWith("$") || var.startsWith("t")) {
                 vars.put(var, reg);
             }
             return reg;
