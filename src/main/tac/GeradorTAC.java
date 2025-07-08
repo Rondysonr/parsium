@@ -303,4 +303,41 @@ public class GeradorTAC extends ParsiumBaseVisitor<TACOperand> {
 
         return null;
     }
+
+    @Override
+    public TACOperand visitPrograma(ParsiumParser.ProgramaContext ctx) {
+        debugLog("*** VISITANDO PROGRAMA: " + ctx.getText());
+        
+        // Processar cada tipo de comando especificamente
+        if (ctx.declaracoes() != null) {
+            debugLog("Processando declarações");
+            visit(ctx.declaracoes());
+        }
+        if (ctx.atribuicoes() != null) {
+            debugLog("Processando atribuições");
+            visit(ctx.atribuicoes());
+        }
+        if (ctx.leitura() != null) {
+            debugLog("Processando leitura");
+            visit(ctx.leitura());
+        }
+        if (ctx.saida() != null) {
+            debugLog("*** PROCESSANDO SAIDA EXPLICITAMENTE");
+            visit(ctx.saida());
+        }
+        if (ctx.loop() != null) {
+            debugLog("Processando loop");
+            visit(ctx.loop());
+        }
+        if (ctx.while_() != null) {
+            debugLog("Processando while");
+            visit(ctx.while_());
+        }
+        if (ctx.expr() != null) {
+            debugLog("Processando expressão");
+            visit(ctx.expr());
+        }
+        
+        return null;
+    }
 }
